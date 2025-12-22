@@ -3,11 +3,13 @@
  */
 package org.example;
 
+import org.example.model.TicTacToeImpl;
+
 public class App {
 
     public static void main(String[] args) {
         System.out.println("Hello tic tac toe");
-        Grid grid = new Grid();
+        TicTacToeImpl grid = new TicTacToeImpl();
         grid.printGrid();
     }
 }
