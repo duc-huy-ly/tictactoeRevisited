@@ -3,13 +3,13 @@
  */
 package org.example;
 
-import org.example.model.TicTacToeImpl;
+import org.example.controller.GameController;
 
 public class App {
 
     public static void main(String[] args) {
         System.out.println("Hello tic tac toe");
-        TicTacToeImpl grid = new TicTacToeImpl();
-        grid.printGrid();
+        GameController game = new GameController();
+        game.start();
     }
 }
