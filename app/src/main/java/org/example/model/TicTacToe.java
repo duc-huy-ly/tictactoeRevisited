@@ -10,4 +10,6 @@ public interface TicTacToe {
     Player getCell(int i, int j);
     Player getWinner();
     List<Command> getPossibleCommands();
+    TicTacToeImpl.Memento createSnapshot();
+    void restore(TicTacToeImpl.Memento m);
 }

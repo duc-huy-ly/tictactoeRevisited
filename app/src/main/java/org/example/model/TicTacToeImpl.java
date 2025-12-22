@@ -4,8 +4,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TicTacToeImpl implements TicTacToe{
-    private final Player[][] cells;
+public class TicTacToeImpl implements TicTacToe {
+    public static class Memento{
+        private final Player [][] cells;
+        private final Player currentPlayer;
+
+        private Memento(Player[][] cells, Player currentPlayer) {
+            this.cells = cells;
+            this.currentPlayer = currentPlayer;
+        }
+
+        private Player[][] getCells() {
+            return cells;
+        }
+
+        private Player getCurrentPlayer() {
+            return currentPlayer;
+        }
+    }
+    private Player[][] cells;
     private Player currentPlayer;
     
     public TicTacToeImpl(){
@@ -115,10 +132,20 @@ public class TicTacToeImpl implements TicTacToe{
                         result.add(new TicTacToeCommand(this, i, j));
                     }
                 }
-
             }
         }
         return result;
+    }
+
+    @Override
+    public Memento createSnapshot() {
+        return new Memento(cells, currentPlayer);
+    }
+
+    @Override
+    public void restore(Memento m) {
+        this.cells = m.getCells();
+        this.currentPlayer = m.getCurrentPlayer();
     }
 
     public void printGrid(){
