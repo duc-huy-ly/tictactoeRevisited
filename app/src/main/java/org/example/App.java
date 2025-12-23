@@ -4,12 +4,14 @@
 package org.example;
 
 import org.example.controller.GameController;
+import org.example.view.View;
 
 public class App {
 
     public static void main(String[] args) {
         System.out.println("Hello tic tac toe");
-        GameController game = new GameController();
+        View view = new View();
+        GameController game = new GameController(view);
         game.start();
     }
 }

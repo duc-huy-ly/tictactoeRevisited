@@ -14,4 +14,5 @@ public interface TicTacToe {
     Player getWinner();
     List<Command> getPossibleCommands();
     IMemento createSnapshot();
+    void printGrid();
 }
