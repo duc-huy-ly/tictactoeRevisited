@@ -1,4 +1,7 @@
-package org.example.model;
+package org.example.model.tictactoe;
+
+import org.example.model.command.Command;
+import org.example.model.memento.IMemento;
 
 import java.util.List;
 
@@ -10,6 +13,5 @@ public interface TicTacToe {
     Player getCell(int i, int j);
     Player getWinner();
     List<Command> getPossibleCommands();
-    TicTacToeImpl.Memento createSnapshot();
-    void restore(TicTacToeImpl.Memento m);
+    IMemento createSnapshot();
 }

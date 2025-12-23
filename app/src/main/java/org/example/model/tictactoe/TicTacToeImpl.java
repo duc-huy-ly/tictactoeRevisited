@@ -1,27 +1,16 @@
-package org.example.model;
+package org.example.model.tictactoe;
+
+import org.example.model.command.Command;
+import org.example.model.command.TicTacToeCommand;
+import org.example.model.memento.IMemento;
+import org.example.model.memento.TicTacToeMemento;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class TicTacToeImpl implements TicTacToe {
-    public static class Memento{
-        private final Player [][] cells;
-        private final Player currentPlayer;
 
-        private Memento(Player[][] cells, Player currentPlayer) {
-            this.cells = cells;
-            this.currentPlayer = currentPlayer;
-        }
-
-        private Player[][] getCells() {
-            return cells;
-        }
-
-        private Player getCurrentPlayer() {
-            return currentPlayer;
-        }
-    }
     private Player[][] cells;
     private Player currentPlayer;
     
@@ -94,9 +83,9 @@ public class TicTacToeImpl implements TicTacToe {
             // columns
             xcount = 0;
             ocount = 0;
-            for (int j = 0; j < cells.length; j++) {
-                if(cells[j][i] == Player.X) xcount++;
-                if(cells[j][i] == Player.O) ocount++;
+            for (Player[] cell : cells) {
+                if (cell[i] == Player.X) xcount++;
+                if (cell[i] == Player.O) ocount++;
             }
             if (xcount == 3) return Player.X;
             if (ocount == 3) return Player.O;
@@ -124,7 +113,7 @@ public class TicTacToeImpl implements TicTacToe {
 
     @Override
     public List<Command> getPossibleCommands() {
-        List<Command> result = new ArrayList<Command>();
+        List<Command> result = new ArrayList<>();
         if (!isFinished()) {
             for (int i = 0 ; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
@@ -138,14 +127,12 @@ public class TicTacToeImpl implements TicTacToe {
     }
 
     @Override
-    public Memento createSnapshot() {
-        return new Memento(cells, currentPlayer);
-    }
-
-    @Override
-    public void restore(Memento m) {
-        this.cells = m.getCells();
-        this.currentPlayer = m.getCurrentPlayer();
+    public IMemento createSnapshot() {
+        Player[][] cellscopy = new Player[3][3];
+        for (int i = 0 ; i < 3 ; i++){
+            cellscopy[i] = Arrays.copyOf(cells[i],3);
+        }
+        return new TicTacToeMemento(this, cellscopy, currentPlayer);
     }
 
     public void printGrid(){
@@ -157,4 +144,11 @@ public class TicTacToeImpl implements TicTacToe {
         }
     }
 
+    public void setCells(Player[][] cells) {
+        this.cells = cells;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
 }
