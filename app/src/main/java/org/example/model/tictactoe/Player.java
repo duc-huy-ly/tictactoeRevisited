@@ -8,8 +8,8 @@ public enum Player {
     public String toString() {
         String res = "";
         switch (this) {
-            case O -> res = "X";
-            case X -> res = "O";
+            case O -> res = "O";
+            case X -> res = "X";
             case NONE -> res = " ";
         }
         return res;
