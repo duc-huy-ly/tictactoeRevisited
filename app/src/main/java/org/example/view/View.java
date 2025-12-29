@@ -10,26 +10,41 @@ import java.awt.event.ActionListener;
 
 public class View implements ActionListener {
     private JFrame frame = new JFrame("Tic Tac Toe");
-    private JPanel button_panel = new JPanel();
+    private JPanel game_grid = new JPanel();
+    private JPanel bottom_panel = new JPanel();
     private JButton[] buttons = new JButton[9];
+    private JButton undo = new JButton("Undo");
+    private JButton reset = new JButton("Reset game");
+
     private GameController controller;
 
     public View() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
         frame.setResizable(false);
+        frame.setLayout(new BorderLayout());
 
-        button_panel.setLayout(new GridLayout(3,3));
-        button_panel.setBackground(new Color(150,150,150));
+        game_grid.setLayout(new GridLayout(3,3));
+        game_grid.setBackground(new Color(150,150,150));
 
         for(int i=0;i<9;i++) {
             buttons[i] = new JButton();
-            button_panel.add(buttons[i]);
+            game_grid.add(buttons[i]);
             buttons[i].setFont(new Font("MV Boli",Font.BOLD,120));
             buttons[i].setFocusable(false);
             buttons[i].addActionListener(this);
         }
-        frame.add(button_panel);
+        frame.add(game_grid, BorderLayout.CENTER);
+        reset.setFont(new Font("MV Boli", Font.BOLD, 20));
+        reset.setFocusable(false);
+        reset.addActionListener(this);
+        bottom_panel.add(reset);
+
+        undo.setFont(new Font("MV Boli", Font.BOLD, 20));
+        undo.setFocusable(false);
+        undo.addActionListener(this);
+        bottom_panel.add(undo);
+        frame.add(bottom_panel, BorderLayout.SOUTH);
         frame.setVisible(true);
     }
 
@@ -39,6 +54,12 @@ public class View implements ActionListener {
             if (actionEvent.getSource() == buttons[i]) {
                 controller.executeAction(i);
             }
+        }
+        if (actionEvent.getSource() == undo) {
+            controller.undo();
+        }
+        if (actionEvent.getSource() == reset) {
+            controller.reset();
         }
     }
 

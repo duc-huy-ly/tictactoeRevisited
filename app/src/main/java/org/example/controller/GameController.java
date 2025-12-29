@@ -68,8 +68,7 @@ public class GameController {
                 idToCommandNumber[i * 3 + j] = counter++;
             }
         }
-        System.out.println(Arrays.toString(idToCommandNumber));
-
+        history.addFirst(commands.get(idToCommandNumber[ButtonIdClicked]));
         commands.get(idToCommandNumber[ButtonIdClicked]).execute();
 
         view.update(game);
@@ -77,6 +76,13 @@ public class GameController {
             checkWinner(game);
         }
 
+    }
+
+    public void undo() {
+        if (!history.isEmpty()) {
+            history.pollFirst().undo();
+            view.update(game);
+        }
     }
 
     private void checkWinner(TicTacToe game) {
@@ -88,4 +94,9 @@ public class GameController {
     }
 
 
+    public void reset() {
+        game.reset();
+        view.update(game);
+        System.out.println("Reset");
+    }
 }

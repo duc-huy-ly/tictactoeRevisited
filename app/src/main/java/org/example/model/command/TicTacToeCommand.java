@@ -25,7 +25,6 @@ public class TicTacToeCommand implements Command {
 
     @Override
     public void undo() {
-
         if (previous != null) {
             previous.restore();
         }
