@@ -20,7 +20,9 @@ public class GameController {
     }
 
     public void updateDisplays(View view, TicTacToe game) {
-        view.update(game);
+        if (view != null) {
+            view.update(game);
+        }
         game.printGrid();
     }
 

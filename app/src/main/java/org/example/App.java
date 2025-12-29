@@ -11,12 +11,34 @@ import org.example.view.View;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("Hello tic tac toe");
+        if (args.length > 0) {
+            if (args[0].equals("-g")) {
+                playGui();
+            } else if (args[0].equals("-t")) {
+                playTerminalMode();
+            } else {
+                System.out.println("Usage: java -jar app.jar [-g | -t]");
+                System.out.println("  -g : GUI mode");
+                System.out.println("  -t : Terminal mode");
+            }
+        } else {
+            // Default to terminal mode if no argument provided
+            playTerminalMode();
+        }
+    }
+
+    public static void playGui() {
         View view = new View();
         TicTacToe game = new TicTacToeImpl();
         GameController controller = new GameController(view, game);
         view.setController(controller);
-
         controller.startGui();
+    }
+
+    public static void playTerminalMode() {
+        System.out.println("Hello tic tac toe, in terminal version");
+        TicTacToe game = new TicTacToeImpl();
+        GameController controller = new GameController(null, game);
+        controller.start();
     }
 }
