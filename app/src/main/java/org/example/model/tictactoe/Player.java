@@ -3,7 +3,6 @@ package org.example.model.tictactoe;
 public enum Player {
     X, O, NONE;
 
-
     @Override
     public String toString() {
         String res = "";
@@ -13,5 +12,9 @@ public enum Player {
             case NONE -> res = " ";
         }
         return res;
+    }
+
+    public boolean isOccupied() {
+        return !this.equals(NONE);
     }
 }

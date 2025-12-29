@@ -3,28 +3,25 @@ package org.example.controller;
 import org.example.model.command.Command;
 import org.example.model.tictactoe.Player;
 import org.example.model.tictactoe.TicTacToe;
-import org.example.model.tictactoe.TicTacToeImpl;
 import org.example.view.View;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameController {
     private View view;
-    private final TicTacToeImpl game = new TicTacToeImpl();
+    private final TicTacToe game;
     private Deque<Command> history = new ArrayDeque<>();
     Scanner scanner = new Scanner(System.in);
+    private List<Command> commands;
 
-    public GameController(View view) {
+    public GameController(View view, TicTacToe game) {
         this.view = view;
+        this.game = game;
     }
 
     public void updateDisplays(View view, TicTacToe game) {
         view.update(game);
         game.printGrid();
-
     }
 
     public void start(){
@@ -33,7 +30,7 @@ public class GameController {
             System.out.println("Current Player : " + game.currentPlayer());
             System.out.println("Possible commands : ");
             int i = 0;
-            List<Command> commands = game.getPossibleCommands();
+            commands = game.getPossibleCommands();
             for (Command c : commands) {
                 System.out.println("> " + i++ + " : " + c.toString());
             }
@@ -51,10 +48,44 @@ public class GameController {
             }
         }
         updateDisplays(view, game);
+        checkWinner(game);
+    }
+
+    public void startGui() {
+        commands = game.getPossibleCommands();
+    }
+
+    public void executeAction(int ButtonIdClicked) {
+        // map the i received from the view to the correct command number
+        int[] idToCommandNumber = new int[9];
+        int counter = 0;
+        for (int i = 0; i < 3; i++) { // number of rows
+            for (int j = 0; j < 3; j++) {
+                if (game.getCell(i, j).isOccupied()) {
+                    // Call an invalid command number when we click on a already occupied cell
+                    idToCommandNumber[i*3 + j] = -99;
+                }
+                idToCommandNumber[i * 3 + j] = counter++;
+            }
+        }
+        System.out.println(Arrays.toString(idToCommandNumber));
+
+        commands.get(idToCommandNumber[ButtonIdClicked]).execute();
+
+        view.update(game);
+        if (game.isFinished()) {
+            checkWinner(game);
+        }
+
+    }
+
+    private void checkWinner(TicTacToe game) {
         if (game.getWinner() == Player.NONE) {
             System.out.println("Draw");
         } else {
             System.out.println(game.getWinner() + " won !");
         }
     }
+
+
 }

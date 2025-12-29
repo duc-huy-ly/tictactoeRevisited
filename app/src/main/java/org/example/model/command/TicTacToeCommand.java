@@ -17,6 +17,9 @@ public class TicTacToeCommand implements Command {
     @Override
     public void execute() {
         previous = ticTacToe.createSnapshot();
+        if (ticTacToe.getCell(i, j).isOccupied()) {
+            return;
+        }
         ticTacToe.play(i, j);
     }
 

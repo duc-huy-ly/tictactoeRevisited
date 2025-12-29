@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.controller.GameController;
 import org.example.model.tictactoe.TicTacToe;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class View implements ActionListener {
     private JFrame frame = new JFrame("Tic Tac Toe");
     private JPanel button_panel = new JPanel();
     private JButton[] buttons = new JButton[9];
+    private GameController controller;
 
     public View() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,11 +37,14 @@ public class View implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         for (int i = 0; i < 9; i++) {
             if (actionEvent.getSource() == buttons[i]) {
-
+                controller.executeAction(i);
             }
         }
     }
 
+    public void setController(GameController controller) {
+        this.controller = controller;
+    }
 
     public void update(TicTacToe game) {
         for (int i = 0; i < 3; i++) {
