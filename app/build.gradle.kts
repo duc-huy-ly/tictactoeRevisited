@@ -33,4 +33,13 @@ java {
 application {
     // Define the main class for the application.
     mainClass = "org.example.App"
+    // Configure application to accept command line arguments
+    applicationDefaultJvmArgs = listOf()
+
 }
+
+// Add this to handle command line arguments
+tasks.named<JavaExec>("run") {
+    args = project.findProperty("appArgs")?.toString()?.split(",") ?: emptyList()
+}
+
